@@ -51,7 +51,7 @@ final class DrawerPanel: NSPanel {
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
         isOpaque = false
         backgroundColor = .clear
-        hasShadow = true
+        hasShadow = false  // the window's shadow is rectangular; the glass draws its own rounded edge
         hidesOnDeactivate = false
         isMovable = false
     }

@@ -17,6 +17,7 @@ struct DrawerView: View {
         .padding(.top, 12)
         .padding(.bottom, 14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .clipShape(.rect(cornerRadius: 28))  // cards scrolled past the edge follow the curve
         // The drawer is the floating control layer, so it's glass; cards are content, so they're solid.
         // The glass sits behind the content rather than wrapping it, so card text isn't drawn as glass text.
         .background { Color.clear.glassEffect(.regular, in: .rect(cornerRadius: 28)) }
@@ -140,6 +141,7 @@ struct DrawerView: View {
                 .padding(.horizontal, 22)
                 .padding(.vertical, 8)
             }
+            .scrollEdgeEffectStyle(.soft, for: .horizontal)  // fade cards out where they scroll under the edge
             .onChange(of: model.selection) { _, selection in
                 guard results.indices.contains(selection) else { return }
                 withAnimation(.smooth(duration: 0.22)) { proxy.scrollTo(results[selection].id) }
