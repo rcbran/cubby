@@ -29,10 +29,12 @@ cat > "$app/Contents/Info.plist" <<EOF
 </plist>
 EOF
 
-# Ad-hoc signature for now. The Accessibility permission (for auto-paste) resets on each rebuild
-# until this is signed with a real certificate.
-codesign --force --sign - "$app" >/dev/null
-echo "built $app"
+# Sign with an Apple Development certificate when there is one, so macOS keeps the Accessibility
+# permission (for auto-paste) across rebuilds. Without one, fall back to an ad-hoc signature,
+# which makes macOS forget the permission on every build.
+identity=$(security find-identity -v -p codesigning | awk -F'"' '/Apple Development/ {print $2; exit}')
+codesign --force --sign "${identity:--}" "$app" >/dev/null
+echo "built $app (signed: ${identity:-ad-hoc})"
 
 if [ "${1:-}" = "--run" ]; then
   shift
