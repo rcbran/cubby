@@ -22,3 +22,7 @@ History lives in `~/Library/Application Support/Cubby/` (`history.sqlite` plus `
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Icon
+
+`Resources/Cubby.icon` is a layered Liquid Glass icon. Open it in Icon Composer (bundled with Xcode) to edit; `script/build.sh` compiles it with `actool`.

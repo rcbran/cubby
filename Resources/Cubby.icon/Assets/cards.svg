@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+ <defs>
+  <clipPath id="c1"><rect x="172" y="412" width="200" height="200" rx="40"/></clipPath>
+  <clipPath id="c2"><rect x="412" y="412" width="200" height="200" rx="40"/></clipPath>
+  <clipPath id="c3"><rect x="652" y="412" width="200" height="200" rx="40"/></clipPath>
+ </defs>
+ <rect x="150" y="390" width="244" height="244" rx="60" fill="none" stroke="#3B82F6" stroke-width="14"/>
+ <g clip-path="url(#c1)"><rect x="172" y="412" width="200" height="200" fill="#FFFFFF"/><rect x="172" y="412" width="200" height="58" fill="#FF7A3D"/>
+  <rect x="198" y="498" width="120" height="18" rx="9" fill="#C9CEDB"/><rect x="198" y="532" width="148" height="18" rx="9" fill="#C9CEDB"/></g>
+ <g clip-path="url(#c2)"><rect x="412" y="412" width="200" height="200" fill="#FFFFFF"/><rect x="412" y="412" width="200" height="58" fill="#4C7DFF"/>
+  <rect x="438" y="498" width="148" height="18" rx="9" fill="#C9CEDB"/><rect x="438" y="532" width="100" height="18" rx="9" fill="#C9CEDB"/></g>
+ <g clip-path="url(#c3)"><rect x="652" y="412" width="200" height="200" fill="#FFFFFF"/><rect x="652" y="412" width="200" height="58" fill="#F43F7A"/>
+  <rect x="678" y="498" width="132" height="18" rx="9" fill="#C9CEDB"/><rect x="678" y="532" width="112" height="18" rx="9" fill="#C9CEDB"/></g>
+</svg>

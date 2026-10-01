@@ -19,6 +19,8 @@ cat > "$app/Contents/Info.plist" <<EOF
   <key>CFBundleName</key><string>Cubby</string>
   <key>CFBundleDisplayName</key><string>Cubby</string>
   <key>CFBundleExecutable</key><string>Cubby</string>
+  <key>CFBundleIconFile</key><string>Cubby</string>
+  <key>CFBundleIconName</key><string>Cubby</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>0.1</string>
   <key>CFBundleVersion</key><string>$(git rev-list --count HEAD 2>/dev/null || echo 1)</string>
@@ -28,6 +30,13 @@ cat > "$app/Contents/Info.plist" <<EOF
 </dict>
 </plist>
 EOF
+
+# The icon is a layered Liquid Glass icon from Icon Composer (Resources/Cubby.icon). actool compiles
+# it into Assets.car for macOS 26+, plus Cubby.icns as a flat fallback.
+# actool needs absolute paths.
+xcrun actool "$PWD/Resources/Cubby.icon" --compile "$PWD/$app/Contents/Resources" --platform macosx \
+  --minimum-deployment-target 26.0 --app-icon Cubby \
+  --output-partial-info-plist "$PWD/build/icon-partial.plist" --errors --warnings >/dev/null
 
 # Sign with an Apple Development certificate when there is one, so macOS keeps the Accessibility
 # permission (for auto-paste) across rebuilds. Without one, fall back to an ad-hoc signature,
