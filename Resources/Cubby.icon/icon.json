@@ -1,35 +1,76 @@
 {
-  "fill" : {
-    "linear-gradient" : [
+  "fill": {
+    "linear-gradient": [
       "display-p3:0.55686,0.43137,1.00000,1.00000",
       "display-p3:0.22745,0.11765,0.61961,1.00000"
     ],
-    "orientation" : {
-      "start" : { "x" : 0.5, "y" : 0 },
-      "stop" : { "x" : 0.5, "y" : 1 }
+    "orientation": {
+      "start": {
+        "x": 0.5,
+        "y": 0
+      },
+      "stop": {
+        "x": 0.5,
+        "y": 1
+      }
     }
   },
-  "groups" : [
+  "groups": [
     {
-      "name" : "Cards",
-      "layers" : [
-        { "image-name" : "cards.svg", "name" : "cards", "glass" : true }
+      "name": "Cards",
+      "layers": [
+        {
+          "image-name": "cards.svg",
+          "name": "cards",
+          "glass": true
+        }
       ],
-      "shadow" : { "kind" : "neutral", "opacity" : 0.5 },
-      "specular" : true,
-      "translucency" : { "enabled" : false, "value" : 0.5 }
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      },
+      "position": {
+        "scale": 1.12,
+        "translation-in-points": [
+          0,
+          0
+        ]
+      }
     },
     {
-      "name" : "Tray",
-      "layers" : [
-        { "image-name" : "tray.svg", "name" : "tray", "glass" : true, "opacity" : 0.9 }
+      "name": "Tray",
+      "layers": [
+        {
+          "image-name": "tray.svg",
+          "name": "tray",
+          "glass": true,
+          "opacity": 0.9
+        }
       ],
-      "shadow" : { "kind" : "neutral", "opacity" : 0.5 },
-      "specular" : true,
-      "translucency" : { "enabled" : true, "value" : 0.45 }
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.45
+      },
+      "position": {
+        "scale": 1.12,
+        "translation-in-points": [
+          0,
+          0
+        ]
+      }
     }
   ],
-  "supported-platforms" : {
-    "squares" : "shared"
+  "supported-platforms": {
+    "squares": "shared"
   }
 }
