@@ -11,6 +11,8 @@ final class DrawerModel: ObservableObject {
     @Published var searchFocused = false
     @Published var selection = 0
     @Published var targetAppName: String?
+    /// Drives the slide: the drawer sits below the screen's bottom edge until this turns true.
+    @Published var presented = false
 
     var paste: (ClipItem, _ plain: Bool) -> Void = { _, _ in }
     var copy: (ClipItem) -> Void = { _ in }
@@ -86,53 +88,62 @@ final class DrawerController: NSObject, NSWindowDelegate {
         model.clearHistory = { [weak self] in self?.store.clearUnpinned() }
     }
 
-    var isVisible: Bool { panel.isVisible }
+    /// Tracks intent rather than panel.isVisible, which stays true while the drawer slides away.
+    private(set) var isVisible = false
 
     func toggle() { isVisible ? hide() : show() }
 
     func show() {
         guard !isVisible else { return }
+        isVisible = true
         target = NSWorkspace.shared.frontmostApplication
         if target?.processIdentifier == ProcessInfo.processInfo.processIdentifier { target = nil }
         model.targetAppName = target?.localizedName
         model.endSearch()
         model.selection = 0
 
-        // Open on the screen the pointer is on, full width, over the Dock.
+        // Open on the screen the pointer is on, full width, over the Dock. The window reaches the
+        // screen's bottom edge so the drawer can start fully below it and slide up into view.
         let mouse = NSEvent.mouseLocation
         guard let screen = NSScreen.screens.first(where: { NSMouseInRect(mouse, $0.frame, false) }) ?? NSScreen.main
         else { return }
         let f = screen.frame
-        let frame = NSRect(x: f.minX + Self.inset, y: f.minY + Self.inset,
-                           width: f.width - Self.inset * 2, height: Self.height)
+        panel.setFrame(NSRect(x: f.minX + Self.inset, y: f.minY,
+                              width: f.width - Self.inset * 2, height: Self.height + Self.inset),
+                       display: false)
 
-        panel.setFrame(frame.offsetBy(dx: 0, dy: -28), display: false)
-        panel.alphaValue = 0
+        var still = Transaction()
+        still.disablesAnimations = true
+        withTransaction(still) { model.presented = false }
+        panel.alphaValue = 1
         panel.orderFrontRegardless()
         panel.makeKey()
-        NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = 0.24
-            ctx.timingFunction = CAMediaTimingFunction(controlPoints: 0.2, 0.9, 0.3, 1)  // quick out, soft landing
-            panel.animator().setFrame(frame, display: true)
-            panel.animator().alphaValue = 1
+        DispatchQueue.main.async { [weak self] in  // let the hidden position render first
+            guard let self, self.isVisible else { return }
+            withAnimation(.spring(duration: 0.42, bounce: 0.1)) { self.model.presented = true }
         }
         installMonitors()
     }
 
     func hide(animated: Bool = true, then completion: (() -> Void)? = nil) {
         guard isVisible else { completion?(); return }
+        isVisible = false
         removeMonitors()
-        NSAnimationContext.runAnimationGroup({ ctx in
-            ctx.duration = animated ? 0.16 : 0
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            panel.animator().setFrame(panel.frame.offsetBy(dx: 0, dy: -20), display: true)
-            panel.animator().alphaValue = 0
-        }, completionHandler: { [weak self] in
-            MainActor.assumeIsolated {
-                self?.panel.orderOut(nil)
-                completion?()
-            }
-        })
+        let finish = { [weak self] in
+            guard let self, !self.isVisible else { return }  // reopened while sliding away
+            self.panel.orderOut(nil)
+            completion?()
+        }
+        guard animated else {
+            model.presented = false
+            finish()
+            return
+        }
+        withAnimation(.easeIn(duration: 0.2)) {
+            model.presented = false
+        } completion: {
+            finish()
+        }
     }
 
     func snapshot(to url: URL) {

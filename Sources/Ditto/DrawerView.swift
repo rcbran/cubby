@@ -21,6 +21,10 @@ struct DrawerView: View {
         // The drawer is the floating control layer, so it's glass; cards are content, so they're solid.
         // The glass sits behind the content rather than wrapping it, so card text isn't drawn as glass text.
         .background { Color.clear.glassEffect(.regular, in: .rect(cornerRadius: 28)) }
+        .frame(height: DrawerController.height)
+        // Slides up from below the screen's bottom edge, which is also the window's bottom edge.
+        .offset(y: model.presented ? -DrawerController.inset : DrawerController.height + DrawerController.inset)
+        .frame(maxHeight: .infinity, alignment: .bottom)
         .onChange(of: model.searchFocused) { _, focused in fieldFocused = focused }
         .onChange(of: fieldFocused) { _, focused in model.searchFocused = focused }
     }
