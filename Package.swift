@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Ditto",
+    name: "Cubby",
     platforms: [.macOS("26.0")],
     targets: [
         .executableTarget(
-            name: "Ditto",
-            path: "Sources/Ditto",
+            name: "Cubby",
+            path: "Sources/Cubby",
             linkerSettings: [.linkedLibrary("sqlite3")]
         )
     ],

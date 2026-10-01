@@ -15,7 +15,7 @@ final class HotKey {
         Self.nextID += 1
         Self.actions[id] = action
         Self.installHandler()
-        let hotKeyID = EventHotKeyID(signature: OSType(0x4454_544F), id: id)  // 'DTTO'
+        let hotKeyID = EventHotKeyID(signature: OSType(0x4355_4259), id: id)  // 'CUBY'
         RegisterEventHotKey(UInt32(keyCode), UInt32(modifiers), hotKeyID, GetApplicationEventTarget(), 0, &ref)
     }
 

@@ -1,4 +1,4 @@
-# Ditto
+# Cubby
 
 A local-only clipboard manager for macOS 26+, in the spirit of Paste. History never leaves the Mac.
 
@@ -6,15 +6,19 @@ A local-only clipboard manager for macOS 26+, in the spirit of Paste. History ne
 - Start typing (or ⌘F) to search.
 - Right-click a card for more.
 
-Auto-paste needs Ditto in System Settings → Privacy & Security → Accessibility. Without it, the item still lands on the clipboard and ⌘V works.
+Auto-paste needs Cubby in System Settings → Privacy & Security → Accessibility. Without it, the item still lands on the clipboard and ⌘V works.
 
 ## Build
 
 ```bash
-script/build.sh --run            # build/Ditto.app, then launch it
+script/build.sh --run            # build/Cubby.app, then launch it
 script/build.sh --run --show     # and open the drawer right away
 ```
 
 Debug flags: `--appearance light|dark` forces a theme; `--snapshot <file.png>` saves the drawer's layout and quits.
 
-History lives in `~/Library/Application Support/Ditto/` (`history.sqlite` plus `images/`).
+History lives in `~/Library/Application Support/Cubby/` (`history.sqlite` plus `images/`).
+
+## License
+
+MIT. See [LICENSE](LICENSE).

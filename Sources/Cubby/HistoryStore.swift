@@ -2,7 +2,7 @@ import AppKit
 import SQLite3
 
 /// Clipboard history in a local SQLite database, with images as files beside it.
-/// Everything lives in ~/Library/Application Support/Ditto and never leaves the Mac.
+/// Everything lives in ~/Library/Application Support/Cubby and never leaves the Mac.
 @MainActor
 final class HistoryStore: ObservableObject {
     @Published private(set) var items: [ClipItem] = []
@@ -16,12 +16,12 @@ final class HistoryStore: ObservableObject {
 
     init() {
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        folder = support.appendingPathComponent("Ditto", isDirectory: true)
+        folder = support.appendingPathComponent("Cubby", isDirectory: true)
         imagesFolder = folder.appendingPathComponent("images", isDirectory: true)
         try? FileManager.default.createDirectory(at: imagesFolder, withIntermediateDirectories: true)
 
         guard sqlite3_open(folder.appendingPathComponent("history.sqlite").path, &db) == SQLITE_OK else {
-            NSLog("Ditto: could not open history database")
+            NSLog("Cubby: could not open history database")
             return
         }
         exec("""
@@ -122,14 +122,14 @@ final class HistoryStore: ObservableObject {
 
     private func exec(_ sql: String) {
         if sqlite3_exec(db, sql, nil, nil, nil) != SQLITE_OK {
-            NSLog("Ditto SQL error: %@", String(cString: sqlite3_errmsg(db)))
+            NSLog("Cubby SQL error: %@", String(cString: sqlite3_errmsg(db)))
         }
     }
 
     private func run(_ sql: String, _ args: [Any?]) {
         var stmt: OpaquePointer?
         guard sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK else {
-            NSLog("Ditto SQL error: %@", String(cString: sqlite3_errmsg(db)))
+            NSLog("Cubby SQL error: %@", String(cString: sqlite3_errmsg(db)))
             return
         }
         defer { sqlite3_finalize(stmt) }
@@ -145,7 +145,7 @@ final class HistoryStore: ObservableObject {
             }
         }
         if sqlite3_step(stmt) != SQLITE_DONE {
-            NSLog("Ditto SQL error: %@", String(cString: sqlite3_errmsg(db)))
+            NSLog("Cubby SQL error: %@", String(cString: sqlite3_errmsg(db)))
         }
     }
 

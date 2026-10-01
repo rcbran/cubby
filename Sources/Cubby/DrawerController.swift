@@ -42,7 +42,7 @@ final class DrawerModel: ObservableObject {
     }
 }
 
-/// A floating panel that can take keyboard focus without activating Ditto,
+/// A floating panel that can take keyboard focus without activating Cubby,
 /// so the app you were in stays in front and receives the paste.
 final class DrawerPanel: NSPanel {
     init() {

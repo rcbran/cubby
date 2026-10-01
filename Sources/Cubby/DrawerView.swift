@@ -49,7 +49,7 @@ struct DrawerView: View {
                 Menu {
                     Button("Clear History") { model.clearHistory() }
                     Divider()
-                    Button("Quit Ditto") { NSApp.terminate(nil) }
+                    Button("Quit Cubby") { NSApp.terminate(nil) }
                 } label: {
                     Image(systemName: "ellipsis")
                         .font(.system(size: 15, weight: .semibold))

@@ -29,7 +29,7 @@ final class ClipboardWatcher {
         }
     }
 
-    /// Call after Ditto writes to the clipboard itself, so its own write isn't recorded as a new copy.
+    /// Call after Cubby writes to the clipboard itself, so its own write isn't recorded as a new copy.
     func skipCurrentContents() {
         lastChange = NSPasteboard.general.changeCount
     }

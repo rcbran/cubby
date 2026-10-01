@@ -38,15 +38,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setUpStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        item.button?.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "Ditto")
+        item.button?.image = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "Cubby")
 
         let menu = NSMenu()
-        let open = NSMenuItem(title: "Open Ditto", action: #selector(openDrawer), keyEquivalent: "v")
+        let open = NSMenuItem(title: "Open Cubby", action: #selector(openDrawer), keyEquivalent: "v")
         open.keyEquivalentModifierMask = [.command, .shift]
         menu.addItem(open)
         menu.addItem(NSMenuItem(title: "Clear History", action: #selector(clearHistory), keyEquivalent: ""))
         menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "Quit Ditto", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit Cubby", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         for menuItem in menu.items where menuItem.action != #selector(NSApplication.terminate(_:)) {
             menuItem.target = self
         }
