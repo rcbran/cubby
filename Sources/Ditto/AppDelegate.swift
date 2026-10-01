@@ -24,6 +24,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if args.contains("--show") {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in self?.drawer.show() }
         }
+        // For checking layout without Screen Recording permission: --snapshot <path.png>
+        // (macOS adds the glass when compositing the screen, so the picture shows layout, not glass)
+        if let i = args.firstIndex(of: "--snapshot"), args.indices.contains(i + 1) {
+            let path = args[i + 1]
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in self?.drawer.show() }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { [weak self] in
+                self?.drawer.snapshot(to: URL(fileURLWithPath: path))
+                NSApp.terminate(nil)
+            }
+        }
     }
 
     private func setUpStatusItem() {

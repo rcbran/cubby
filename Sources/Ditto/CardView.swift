@@ -73,7 +73,7 @@ struct CardView: View {
         case .text:
             textBody(font: .system(size: 12.5))
         case .code:
-            textBody(font: .system(size: 11.5, design: .monospaced))
+            textBody(font: .system(size: 11.5, design: .monospaced), wrap: false)
         case .link:
             linkBody
         case .image:
@@ -85,10 +85,12 @@ struct CardView: View {
         }
     }
 
-    private func textBody(font: Font) -> some View {
+    private func textBody(font: Font, wrap: Bool = true) -> some View {
         Text(String((item.text ?? "").prefix(700)))
             .font(font)
             .lineSpacing(2)
+            .fixedSize(horizontal: !wrap, vertical: false)  // code keeps its line shape and runs off the edge
+            .frame(width: wrap ? nil : Self.size - 24, alignment: .leading)  // overflow to the right, not both sides
             .foregroundStyle(.primary)
             .padding(.horizontal, 12)
             .padding(.top, 10)

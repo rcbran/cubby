@@ -135,6 +135,12 @@ final class DrawerController: NSObject, NSWindowDelegate {
         })
     }
 
+    func snapshot(to url: URL) {
+        guard let view = panel.contentView, let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { return }
+        view.cacheDisplay(in: view.bounds, to: rep)
+        try? rep.representation(using: .png, properties: [:])?.write(to: url)
+    }
+
     func windowDidResignKey(_ notification: Notification) {
         hide()  // another app or window took focus
     }
