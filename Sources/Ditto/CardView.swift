@@ -38,29 +38,28 @@ struct CardView: View {
     // MARK: Header
 
     private var header: some View {
-        HStack(spacing: 8) {
-            VStack(alignment: .leading, spacing: 1) {
-                Text(item.kind.title)
-                    .font(.system(size: 14, weight: .semibold))
-                TimelineView(.periodic(from: .now, by: 30)) { context in
-                    Text(Self.age(of: item.created, now: context.date))
-                        .font(.system(size: 11))
-                        .opacity(0.85)
-                }
+        // One compact row: type and age on the left, the source app's icon on the right.
+        HStack(spacing: 6) {
+            Text(item.kind.title)
+                .font(.system(size: 12.5, weight: .semibold))
+            TimelineView(.periodic(from: .now, by: 30)) { context in
+                Text(Self.age(of: item.created, now: context.date))
+                    .font(.system(size: 11))
+                    .opacity(0.8)
             }
-            .lineLimit(1)
             Spacer(minLength: 4)
             if let icon = AppInfo.icon(for: item.sourceBundleID) {
                 Image(nsImage: icon)
                     .resizable()
-                    .frame(width: 36, height: 36)
-                    .shadow(color: .black.opacity(0.25), radius: 1.5, y: 1)
+                    .frame(width: 22, height: 22)
+                    .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
                     .help(item.sourceName ?? "")
             }
         }
-        .padding(.leading, 12)
-        .padding(.trailing, 9)
-        .frame(height: 50)
+        .lineLimit(1)
+        .padding(.leading, 11)
+        .padding(.trailing, 7)
+        .frame(height: 32)
         .foregroundStyle(.white)
         .background(Color(nsColor: AppInfo.color(for: item.sourceBundleID)))
     }
